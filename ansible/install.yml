@@ -1,0 +1,49 @@
+---
+- name: Tomcat installation playbook
+  hosts: tomcat
+  tasks:
+    - name: Create Tomcat Directory Under User's Home Directory
+      file:
+        path: /home/cloudadmin/tomcat/tomcat1
+        state: directory
+        mode: 0755
+
+    - name: Download Tomcat Installer
+      get_url:
+        url: https://archive.apache.org/dist/tomcat/tomcat-8/v8.5.24/bin/apache-tomcat-8.5.24.tar.gz
+        dest: /home/cloudadmin/tomcat
+
+    - name: Copy and Untar Tomcat
+      unarchive:
+        src: /home/cloudadmin/tomcat/apache-tomcat-8.5.24.tar.gz
+        dest: /home/cloudadmin/tomcat/tomcat1
+        copy: no
+        creates: /home/cloudadmin/tomcat/tomcat1/apache-tomcat-8.5.24/RUNNING.txt
+
+    - name: Change onwership of Tomcat installer
+      file:
+        path: /home/cloudadmin/tomcat/tomcat1/apache-tomcat-8.5.24
+        owner: cloudadmin
+        group: cloudadmin
+        recurse: yes
+
+    - name: Copy Tomcat-users.xml Configuration File
+      template:
+         src: /home/cloudadmin/tomcat-users.xml
+         dest: /home/cloudadmin/tomcat/tomcat1/apache-tomcat-8.5.24/conf/tomcat-users.xml
+
+    - name: Copy Context.xml Configuration file
+      template:
+         src: /home/cloudadmin/context.xml
+         dest: /home/cloudadmin/tomcat/tomcat1/apache-tomcat-8.5.24/webapps/manager/META-INF/context.xml
+
+    - name: Start Tomcat Server
+      shell: nohup sh /home/cloudadmin/tomcat/tomcat1/apache-tomcat-8.5.24/bin/startup.sh
+      args:
+        creates: /home/cloudadmin/tomcat/startcheck.txt
+        
+    - name: Creating a check file
+      file:
+        path: /home/cloudadmin/tomcat/startcheck.txt
+        state: touch    
+        
