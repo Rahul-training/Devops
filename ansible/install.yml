@@ -29,12 +29,12 @@
 
     - name: Copy Tomcat-users.xml Configuration File
       template:
-         src: /home/cloudadmin/tomcat-users.xml
+         src: tomcat-users.xml
          dest: /home/cloudadmin/tomcat/tomcat1/apache-tomcat-8.5.24/conf/tomcat-users.xml
 
     - name: Copy Context.xml Configuration file
       template:
-         src: /home/cloudadmin/context.xml
+         src: context.xml
          dest: /home/cloudadmin/tomcat/tomcat1/apache-tomcat-8.5.24/webapps/manager/META-INF/context.xml
 
     - name: Start Tomcat Server
