@@ -1,0 +1,36 @@
+---
+- name: Tomcat Uninstall playbook
+  hosts: tomcat
+  tasks:
+    - name: Removing Check File
+      file:
+        path: /home/cloudadmin/tomcat/startcheck.txt
+        state: absent
+
+    - name: Stopping Tomcat Server
+      shell: nohup sh /home/cloudadmin/tomcat/tomcat1/apache-tomcat-8.5.24/bin/shutdown.sh
+
+    - name: Deleting Untar File
+      file:
+        path: /home/cloudadmin/tomcat/tomcat1/apache-tomcat-8.5.24
+        state: absent
+
+    - name: Deleting Tomcat Installer Zip File
+      file:
+        path: /home/cloudadmin/tomcat/apache-tomcat-8.5.24.tar.gz
+        state: absent
+
+    - name: Deleting Tomcat-users.xml Configuration File
+      file:
+        path: /home/cloudadmin/tomcat/tomcat1/apache-tomcat-8.5.24/conf/tomcat-users.xml
+        state: absent
+
+    - name: Delete Context.xml Configuration file
+      file:
+         path: /home/cloudadmin/tomcat/tomcat1/apache-tomcat-8.5.24/webapps/manager/META-INF/context.xml
+         state: absent
+
+    - name: Delete Tomcat installer Directory
+      file:
+         path: /home/cloudadmin/tomcat
+         state: absent
