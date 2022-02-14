@@ -8,17 +8,6 @@ variable tenant_id {
     description = "Azure Tenant Id"
 }
 
-variable location {
-    type = string
-    description = "Resource Group Location"
-}
-
-variable group_name {
-    type = string
-    description = "Resource Group Name"
-}
-
-
 variable client_id {
     type = string
     description = "Client Id"
