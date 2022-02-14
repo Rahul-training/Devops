@@ -1,8 +1,0 @@
----
-- name: Sample Application Playbook
-  hosts: tomcat
-  tasks:
-    - name: Undeploy Sample Application From Tomcat Server
-      file:
-        path: /home/cloudadmin/tomcat/tomcat1/apache-tomcat-8.5.24/webapps/addressbook.war
-        state: absent

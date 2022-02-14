@@ -1,8 +1,0 @@
----
-- name: Sample Application Playbook
-  hosts: tomcat
-  tasks:
-    - name: Deploying Sample Application To Tomcat Server
-      copy:
-        src: /home/cloudadmin/addressbook/addressbook_main/target/addressbook.war
-        dest: /home/cloudadmin/tomcat/tomcat1/apache-tomcat-8.5.24/webapps
