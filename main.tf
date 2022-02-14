@@ -113,4 +113,28 @@ resource "azurerm_linux_virtual_machine" "myterraformvm" {
      tags = {
         environment = "Terraform Demo"
     }
+  connection {
+        host = self.public_ip_address
+        user = "azureuser"
+        password= "Windows@123456"
+        type = "ssh"
+    }
+
+    provisioner "remote-exec" {
+        inline = [
+          "sudo apt-get update",
+          "sudo apt-get install curl",
+          "curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl",
+          "chmod +x kubectl",
+          "sudo mv kubectl /usr/local/bin",
+          "sudo apt-get install docker.io -y",
+          "sudo gpasswd -a $USER docker",
+          "wget https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64",
+          "chmod +x minikube-linux-amd64",
+          "sudo mv minikube-linux-amd64 /usr/local/bin/minikube",
+          "minikube version",
+          "sudo apt-get install conntrack -y",
+          "sudo minikube start --vm-driver=none"
+        ]
+    }  
 }    
