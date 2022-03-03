@@ -1,5 +1,5 @@
 resource "azurerm_resource_group" "myterraformgroup" {
-    name     = "myResourceGroup"
+    name     = "mynewResourceGroup"
     location = "eastus"
 
     tags = {
@@ -8,7 +8,7 @@ resource "azurerm_resource_group" "myterraformgroup" {
 }
 # Create virtual network
 resource "azurerm_virtual_network" "myterraformnetwork" {
-    name                = "myVnet"
+    name                = "mynewVnet"
     address_space       = ["10.0.0.0/16"]
     location            = "eastus"
     resource_group_name = azurerm_resource_group.myterraformgroup.name
@@ -19,7 +19,7 @@ resource "azurerm_virtual_network" "myterraformnetwork" {
 }
 # Create subnet
 resource "azurerm_subnet" "myterraformsubnet" {
-    name                 = "mySubnet"
+    name                 = "mynewSubnet"
     resource_group_name  = azurerm_resource_group.myterraformgroup.name
     virtual_network_name = azurerm_virtual_network.myterraformnetwork.name
     address_prefixes       = ["10.0.1.0/24"]
@@ -27,7 +27,7 @@ resource "azurerm_subnet" "myterraformsubnet" {
 
 # Create public IPs
 resource "azurerm_public_ip" "myterraformpublicip" {
-    name                         = "myPublicIP"
+    name                         = "mynewPublicIP"
     location                     = "eastus"
     resource_group_name          = azurerm_resource_group.myterraformgroup.name
     allocation_method            = "Static"
@@ -39,7 +39,7 @@ resource "azurerm_public_ip" "myterraformpublicip" {
 
 # Create Network Security Group and rule
 resource "azurerm_network_security_group" "myterraformnsg" {
-    name                = "myNetworkSecurityGroup"
+    name                = "mynewNetworkSecurityGroup"
     location            = "eastus"
     resource_group_name = azurerm_resource_group.myterraformgroup.name
 
@@ -62,7 +62,7 @@ resource "azurerm_network_security_group" "myterraformnsg" {
 
 # Create network interface
 resource "azurerm_network_interface" "myterraformnic" {
-    name                      = "myNIC"
+    name                      = "mynewNIC"
     location                  = "eastus"
     resource_group_name       = azurerm_resource_group.myterraformgroup.name
 
@@ -86,14 +86,14 @@ resource "azurerm_network_interface_security_group_association" "example" {
 
 # Create virtual machine
 resource "azurerm_linux_virtual_machine" "myterraformvm" {
-    name                  = "myVM"
+    name                  = "mynewVM"
     location              = "eastus"
     resource_group_name   = azurerm_resource_group.myterraformgroup.name
     network_interface_ids = [azurerm_network_interface.myterraformnic.id]
     size                  = "Standard_A2_v2"
 
     os_disk {
-        name              = "myOsDisk"
+        name              = "mynewOsDisk"
         caching           = "ReadWrite"
         storage_account_type = "StandardSSD_LRS"
     }
@@ -105,7 +105,7 @@ resource "azurerm_linux_virtual_machine" "myterraformvm" {
         version   = "latest"
     }
 
-    computer_name  = "myvm"
+    computer_name  = "mynewvm"
     admin_username = "azureuser"
     admin_password = "Windows@123456"
     disable_password_authentication = false
